@@ -508,50 +508,59 @@ int Check_Patient_researve(int patientID)
   }
   return 0 ;
 }
-//======================================================new patient============================================================
-void New_Patient()
+//Omar======================================================new patient============================================================
+
+void NewPatient()
 {
-    if(patientCount<35&&slotCount<35&&First_Empty_Index()!=-1)
+    if(patientCount<35&&slotCount<35&&FirstEmptyIndex()!=-1)
     {
-        int index=First_Empty_Index();
-
-         printf("Entering new patient data:\n");
-        
-         printf("Enter name:\n");
-         getchar();
-         fgets(patients[index].name,50,stdin);
-
-         printf("Enter age:\n");
-         fflush(stdin);
-         scanf("%i",&patients[index].age);
-
-         printf("Enter gender:\n");
-         getchar();
-         fgets(patients[index].gender,10,stdin);
-
+         int index=FirstEmptyIndex();
          int id;
          int flag = 0 ;
+
          do
          {
+            printf("Entering new patient data:\n");
             printf("* Note that: \n1-ID must contain 4 numbers not started whith 0 \n 2-ID must be unique \n");
             printf(" Enter ID:\n");
-            fflush(stdin);
             scanf("%i",&id);
-            if(Check_ID_Available(id)==1)
+            if(checkIDavailable(id)==1)
             {
-
-                printf("Did user pay %i $?:\nif Yes, Enter 1 \n if No, press any thing else \n",price);
-                int cost_flag=0;
+              printf("Did user pay %i $?:\nif Yes, Enter 1 \n if No, press any thing else \n",price);
+              int cost_flag=0;
               fflush(stdin);
               scanf("%i",&cost_flag);
               if(cost_flag==1)
               {
                printf("User paid %i $!!\n",price);
                patients[index].patientID=id;
-               Choose_Slot(id);
+               printf("Enter name:\n");
+               getchar();
+               fgets(patients[index].name,50,stdin);
+
+               printf("Enter age:\n");
+               scanf("%i",&patients[index].age);
+
+               printf("Enter gender:\n");
+               getchar();
+               fgets(patients[index].gender,10,stdin);
+               reserveingSlot(id);
+
+               int edit_confirm;
+               printf("Do yo want to edit any patient data?\n");
+               printf("if yes>>press 1\n");
+               printf("if no>>press any number\n");
+               fflush(stdin);
+               scanf("%i",&edit_confirm);
+
+               if(edit_confirm==0)
+               {
+                   editPatientRecord();
+               }
                printf("Patient data successfully added!!\n");
                patientCount++;
-               flag++;
+
+               flag=1;
               }
               else
               {
@@ -573,6 +582,7 @@ void New_Patient()
         printf("Maximum weekly capacitance reached!!\n");
     }
 }
+
 int First_Empty_Index()
 {
     int i;
